@@ -64,7 +64,7 @@ const userController = (User) => {
 			"userName": body.userName
 		});
 		if(response === null) {
-			res.status(401).json('User not found')
+			res.status(401).json('Invalid credentials')
 
 		}else if(await bcrypt.compare(body.password, response.password)) {
 			const token = jwt.sign({ data: response}, 'secret'/*, {expiresIn: '3h'}*/)
