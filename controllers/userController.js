@@ -10,7 +10,6 @@ const userController = (User) => {
 	const getUsers = async (req, res) => {
     const { query } = req;
     const response = await User.find(query);
-    
     res.json(response);
     }
 	
@@ -30,11 +29,13 @@ const userController = (User) => {
 		res.json(response);
 	}
 
-	const getUserByUserName = async (req, res) => {
-		const { body } = req;
-		const response = await User.findByUserName(body.userName);
-		res.json(response);
-	}
+		const getUserByUserName = async (req, res) => {
+			const { query } = req
+			const response = await User.findOne(query);
+			res.json(response);
+		}
+
+	
 
 	const putUsers = async (req, res) => {
 		const { body } = req; 
@@ -69,7 +70,7 @@ const userController = (User) => {
 		if(response === null) {
 			res.status(401).json('User not found')
 
-		}else if( await bcrypt.compare(body.password, response.password)) {
+		}else if(await bcrypt.compare(body.password, response.password)) {
 			const token = jwt.sign({ data: response}, 'secret'/*, {expiresIn: '3h'}*/)
 			res.status(200).json({
 				authentication: 'Successfully',
@@ -82,7 +83,7 @@ const userController = (User) => {
 		
 
 	}
-	return {  getUsers, postUsers, getUserById, putUsers, deleteUserById, postLogin, getUserByUserName };
+	return {  getUsers, postUsers, getUserById, putUsers, deleteUserById, postLogin, getUserByUserName};
 }
 
-module.exports = userController; 
+module.exports = userController;

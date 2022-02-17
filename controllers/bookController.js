@@ -8,32 +8,32 @@ const bookController = (Book) => {
     }
 	
 	const postBooks = (async (req, res) => {
-    const { query } = req;
-    const response = await Book.find(query);
-    
+    const { body} = req;
+		const newBook = new Book (body);
+    const response = await newBook.save();
     res.json(response);
     })
 	
+	const getBookByAuthor = async (req, res) => {
+		const { query } = req;
+		const response = await Book.find(query);
+		res.json(response);
+		}
+		
+	const getBookByName = async (req, res) => {
+		const { query } = req;
+		const response = await Book.find(query);
+		res.json(response);
+		}
+
 	const getBookById = async (req, res) => {
 		const { params } = req;
 		const response = await Book.findById(params.bookId);
 		
 		res.json(response);
-	}
+		}
 
-	const getBookByAuthor = async (req, res) => {
-		const { params } = req;
-		const response = await Book.findByAuthor(params.bookAuthor);
-		
-		res.json(response);
-	}
 	
-	const getBookByName = async (req, res) => {
-		const { params } = req;
-		const response = await Book.findByName(params.bookTitle);
-		res.json(response);
-	}
-
 	const putBooks = async (req, res) => {
 		const { body } = req; 
 		const response = await Book.updateOne({
