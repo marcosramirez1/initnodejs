@@ -17,9 +17,7 @@ const userController = (User) => {
     const { body } = req;
 		const newUser = new User (body);  
 		newUser.password = await bcrypt.hash(newUser.password, 10);
-    
 		const response = await newUser.save();
-    
     res.json(response);
     })
 	
@@ -56,9 +54,7 @@ const userController = (User) => {
 	}
 	const deleteUserById = async (req, res)=> {
 		const id = req.params.userId;
-		
 		await User.findByIdAndDelete(id)
-		
 		res.status(202).json("User has been deleted...")
 	}
 
